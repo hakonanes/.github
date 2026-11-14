@@ -42,7 +42,7 @@ on:
       DEPENDENCIES_DEV:
         # Dev version from https://anaconda.org/scientific-python-nightly-wheels/
         description: 'List of dependencies to install from scientific-python-nightly-wheels.'
-        default: '' # e.g. matplotlib scipy scikit-learn sympy h5py scikit-image 
+        default: '' # e.g. matplotlib scipy scikit-learn sympy h5py scikit-image
         type: string
       PLATFORM:
         description: 'The platform to run the tests on.'
@@ -95,7 +95,7 @@ jobs:
   integration_test:
     name: ${{ inputs.PLATFORM }} py${{ inputs.PYTHON_VERSION }} ${{ inputs.LABEL }}
     runs-on: ${{ inputs.PLATFORM }}
-    
+
     defaults:
       run:
         shell: bash -el {0}
@@ -105,7 +105,7 @@ jobs:
       RSCIIO_CACHE_POOCH_LABEL: ${{ inputs.RSCIIO_CACHE_POOCH_LABEL }}
     steps:
       - uses: actions/checkout@v7
-        with: 
+        with:
           fetch-depth: 0
           fetch-tags: true
 
@@ -303,6 +303,11 @@ jobs:
             fi
           done
 
+      - name: Install kikuchipy from branch (temporary)
+        if: ${{ contains(inputs.EXTENSIONS, 'kikuchipy') }}
+        run: |
+          pip install --no-deps --force-reinstall "kikuchipy @ git+https://github.com/hakonanes/kikuchipy.git@fix-test-suite-failures"
+
       - name: Conda list
         run: |
           conda list
@@ -354,7 +359,7 @@ jobs:
         run: |
           # overwrite the RSCIIO_CACHE_POOCH_LABEL to "main" to get the latest test data cache for the dev version of RosettaSciIO
           echo "RSCIIO_CACHE_POOCH_LABEL=main" >> $GITHUB_ENV
-          
+
       - uses: ssciwr/pooch-cache@v1
         if: ${{ env.REPOSITORY_NAME != 'rosettasciio' }}
         with:
@@ -375,7 +380,9 @@ jobs:
           conda list
 
       - name: Run HyperSpy Test Suite
-        if: ${{ always() }}
+        # Temporary: only run kikuchipy test suite
+        # if: ${{ always() }}
+        if: false
         working-directory: ${{ runner.temp }}
         id: hyperspy_tests
         run: |
@@ -396,7 +403,9 @@ jobs:
           assignees: "ericpre,jlaehne,CSSFrancis"
 
       - name: Run RosettaSciIO Test Suite
-        if: ${{ always() }}
+        # Temporary: only run kikuchipy test suite
+        # if: ${{ always() }}
+        if: false
         working-directory: ${{ runner.temp }}
         id: rosettasciio_tests
         run: |
@@ -416,7 +425,9 @@ jobs:
           assignees: "ericpre,jlaehne,CSSFrancis"
 
       - name: Run LumiSpy Test Suite
-        if: ${{ always() && contains(inputs.EXTENSIONS, 'lumispy') || env.REPOSITORY_NAME == 'lumispy' }}
+        # Temporary: only run kikuchipy test suite
+        # if: ${{ always() && contains(inputs.EXTENSIONS, 'lumispy') || env.REPOSITORY_NAME == 'lumispy' }}
+        if: false
         working-directory: ${{ runner.temp }}
         id: lumispy_tests
         run: |
@@ -436,7 +447,9 @@ jobs:
           assignees: "jlaehne"
 
       - name: Run hyperspy_gui_ipywidgets Test Suite
-        if: ${{ always() && contains(inputs.EXTENSIONS, 'hyperspy-gui-ipywidgets') || env.REPOSITORY_NAME == 'hyperspy_gui_ipywidgets' }}
+        # Temporary: only run kikuchipy test suite
+        # if: ${{ always() && contains(inputs.EXTENSIONS, 'hyperspy-gui-ipywidgets') || env.REPOSITORY_NAME == 'hyperspy_gui_ipywidgets' }}
+        if: false
         working-directory: ${{ runner.temp }}
         id: hyperspy_gui_ipywidgets_tests
         run: |
@@ -456,7 +469,9 @@ jobs:
           assignees: "ericpre,jlaehne,CSSFrancis"
 
       - name: Run hyperspy_gui_traitsui Test Suite
-        if: ${{ always() && contains(inputs.EXTENSIONS, 'hyperspy-gui-traitsui') || env.REPOSITORY_NAME == 'hyperspy_gui_traitsui' }}
+        # Temporary: only run kikuchipy test suite
+        # if: ${{ always() && contains(inputs.EXTENSIONS, 'hyperspy-gui-traitsui') || env.REPOSITORY_NAME == 'hyperspy_gui_traitsui' }}
+        if: false
         working-directory: ${{ runner.temp }}
         id: hyperspy_gui_traitsui_tests
         run: |
@@ -475,7 +490,9 @@ jobs:
           assignees: "ericpre,jlaehne,CSSFrancis"
 
       - name: Run Pyxem Test Suite
-        if: ${{ always() && contains(inputs.EXTENSIONS, 'pyxem') || env.REPOSITORY_NAME == 'pyxem' }}
+        # Temporary: only run kikuchipy test suite
+        # if: ${{ always() && contains(inputs.EXTENSIONS, 'pyxem') || env.REPOSITORY_NAME == 'pyxem' }}
+        if: false
         working-directory: ${{ runner.temp }}
         id: pyxem_tests
         run: |
@@ -498,7 +515,9 @@ jobs:
           assignees: "CSSFrancis"
 
       - name: Run holospy Test Suite
-        if: ${{ always() && contains(inputs.EXTENSIONS, 'holospy') || env.REPOSITORY_NAME == 'holospy' }}
+        # Temporary: only run kikuchipy test suite
+        # if: ${{ always() && contains(inputs.EXTENSIONS, 'holospy') || env.REPOSITORY_NAME == 'holospy' }}
+        if: false
         working-directory: ${{ runner.temp }}
         id: holospy_tests
         run: |
@@ -517,7 +536,9 @@ jobs:
           assignees: "ericpre,jlaehne,CSSFrancis"
 
       - name: Run exSpy Test Suite
-        if: ${{ always() && contains(inputs.EXTENSIONS, 'exspy') || env.REPOSITORY_NAME == 'exspy' }}
+        # Temporary: only run kikuchipy test suite
+        # if: ${{ always() && contains(inputs.EXTENSIONS, 'exspy') || env.REPOSITORY_NAME == 'exspy' }}
+        if: false
         working-directory: ${{ runner.temp }}
         id: exspy_tests
         run: |
@@ -558,7 +579,9 @@ jobs:
           assignees: "hakonanes"
 
       - name: Run etspy Test Suite
-        if: ${{ always() && contains(inputs.EXTENSIONS, 'etspy') || env.REPOSITORY_NAME == 'etspy' }}
+        # Temporary: only run kikuchipy test suite
+        # if: ${{ always() && contains(inputs.EXTENSIONS, 'etspy') || env.REPOSITORY_NAME == 'etspy' }}
+        if: false
         working-directory: ${{ runner.temp }}
         id: etspy_tests
         run: |
@@ -579,7 +602,9 @@ jobs:
       - name: Run atomap Test Suite
         # Skip atomap tests with dependencies_dev
         # https://github.com/hyperspy/hyperspy-extensions-list/issues/104
-        if: ${{ always() && contains(inputs.EXTENSIONS, 'atomap') && inputs.DEPENDENCIES_DEV == '' || env.REPOSITORY_NAME == 'atomap' }}
+        # Temporary: only run kikuchipy test suite
+        # if: ${{ always() && contains(inputs.EXTENSIONS, 'atomap') && inputs.DEPENDENCIES_DEV == '' || env.REPOSITORY_NAME == 'atomap' }}
+        if: false
         working-directory: ${{ runner.temp }}
         id: atomap_tests
         run: |
