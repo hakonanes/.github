@@ -564,7 +564,8 @@ jobs:
         run: |
           # test_not_allow_download_raises: https://github.com/pyxem/kikuchipy/issues/707
           # test_lazy_decomposition, test_get_decomposition_model_lazy: https://github.com/pyxem/kikuchipy/pull/813
-          pytest --pyargs kikuchipy ${{ env.PYTEST_LOG_ARGS }} -k "not test_not_allow_download_raises and not test_lazy_decomposition and not test_get_decomposition_model_lazy"
+          # pytest --pyargs kikuchipy ${{ env.PYTEST_LOG_ARGS }} -k "not test_not_allow_download_raises and not test_lazy_decomposition and not test_get_decomposition_model_lazy"
+          pytest --pyargs kikuchipy ${{ env.PYTEST_LOG_ARGS }}
 
       - name: Report kikuchipy test failures as GitHub Issue
         if: |
